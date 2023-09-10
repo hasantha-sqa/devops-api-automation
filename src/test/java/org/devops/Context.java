@@ -4,22 +4,22 @@ import io.cucumber.java8.En;
 
 public class Context {
 
-    private String AuthorizationToken;
-    private String AuthenticationToken;
+    private String authorizationToken;
+    private String authenticationToken;
 
     public String getAuthorizationToken() {
-        return AuthorizationToken;
+        return this.authorizationToken;
     }
 
-    public void setAuthorizationToken(String AuthorizationToken) {
-        AuthorizationToken = AuthorizationToken;
+    public void setAuthorizationToken(String authorizationToken) {
+        this.authorizationToken = authorizationToken;
     }
 
     public String getAuthenticationToken() {
-        return AuthenticationToken;
+        return this.authenticationToken;
     }
 
     public void setAuthenticationToken(String authenticationToken) {
-        AuthenticationToken = authenticationToken;
+        this.authenticationToken = authenticationToken;
     }
 }

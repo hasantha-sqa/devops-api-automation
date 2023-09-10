@@ -1,17 +1,21 @@
 package org.devops.steps.leaderboard;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import io.cucumber.java8.En;
 import io.restassured.http.ContentType;
-import io.restassured.internal.RequestSpecificationImpl;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.devops.Context;
-import org.devops.utils.Constants;
+import org.devops.utils.AllureAttachment;
+import org.devops.utils.Configs;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
@@ -24,13 +28,12 @@ public class GetLeaderBoardUsersSteps extends Context implements En {
 
         When("^user hits get leaderboard users endpoint$", () -> {
 
-            this.getUsersReq = given().headers("Authorization", context.getAuthorizationToken(), "Authentication", context.getAuthenticationToken())
+            this.getUsersReq = given().headers("Authentication", context.getAuthenticationToken())
                     .contentType(ContentType.JSON);
 
-            this.getUsersRes = this.getUsersReq.when().get(Constants.BASE_URL + "/v1/users");
+            this.getUsersRes = this.getUsersReq.when().get(Configs.BASE_URL + "/v1/users");
 
-            System.out.println(((RequestSpecificationImpl) this.getUsersReq).getHeaders());
-            System.out.println(this.getUsersRes.body().prettyPrint());
+            AllureAttachment.addSearchDetailsToReport("GET LEADERBOARD USERS", "GET", this.getUsersReq, this.getUsersRes);
 
         });
 
@@ -41,8 +44,10 @@ public class GetLeaderBoardUsersSteps extends Context implements En {
         });
 
         And("^get leaderboard users response should return a list of users$", () -> {
-//            TODO
-            this.getUsersValRes.body("", hasSize(greaterThan(0)));
+
+            JsonArray responseArray = JsonParser.parseString(this.getUsersRes.asString()).getAsJsonArray();
+            assertThat(responseArray.size(), greaterThan(0));
+
         });
 
         And("^get leaderboard users response should return users with a username and a score$", () -> {

@@ -2,13 +2,13 @@ package org.devops.steps.authentication;
 
 import io.cucumber.java8.En;
 import io.restassured.http.ContentType;
-import io.restassured.internal.RequestSpecificationImpl;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.devops.Context;
 import org.devops.objects.UserCredentials;
-import org.devops.utils.Constants;
+import org.devops.utils.AllureAttachment;
+import org.devops.utils.Configs;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -33,10 +33,9 @@ public class UserLoginSteps extends Context implements En {
             this.userLoginReq = given().headers("Authorization", context.getAuthorizationToken())
                     .body(this.userCredentials.getRequestJson()).contentType(ContentType.JSON);
 
-            this.userLoginRes = this.userLoginReq.when().post(Constants.BASE_URL + "/auth/user/login");
+            this.userLoginRes = this.userLoginReq.when().post(Configs.BASE_URL + "/auth/user/login");
 
-            System.out.println(((RequestSpecificationImpl) this.userLoginReq).getBody());
-            System.out.println(this.userLoginRes.body().prettyPrint());
+            AllureAttachment.addSearchDetailsToReport("USER LOGIN", "POST", this.userLoginReq, this.userLoginRes);
 
         });
 
@@ -56,6 +55,12 @@ public class UserLoginSteps extends Context implements En {
         And("^login response should return expire time as \"([^\"]*)\"$", (String expiryTime) -> {
 
             this.userLoginValRes.body("expiresIn", equalTo(expiryTime));
+
+        });
+
+        And("^user login response should return an error as \"([^\"]*)\"$", (String error) -> {
+
+            this.userLoginValRes.body("error", equalTo(error));
 
         });
     }

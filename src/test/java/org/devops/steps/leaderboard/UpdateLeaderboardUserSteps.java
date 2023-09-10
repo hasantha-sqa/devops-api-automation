@@ -2,13 +2,13 @@ package org.devops.steps.leaderboard;
 
 import io.cucumber.java8.En;
 import io.restassured.http.ContentType;
-import io.restassured.internal.RequestSpecificationImpl;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.devops.Context;
 import org.devops.objects.LeaderboardUser;
-import org.devops.utils.Constants;
+import org.devops.utils.AllureAttachment;
+import org.devops.utils.Configs;
 
 import static io.restassured.RestAssured.given;
 
@@ -17,6 +17,7 @@ public class UpdateLeaderboardUserSteps extends Context implements En {
     private RequestSpecification updateUsersReq;
     private Response updateUserRes;
     private ValidatableResponse updateUserValRes;
+
     public UpdateLeaderboardUserSteps(Context context) {
 
         Given("^user enters updating leaderboard user's username as \"([^\"]*)\" and score as (\\d+)$", (String username, Integer score) -> {
@@ -27,13 +28,12 @@ public class UpdateLeaderboardUserSteps extends Context implements En {
 
         When("^user hits update leaderboard user endpoint$", () -> {
 
-            this.updateUsersReq = given().headers("Authorization", context.getAuthorizationToken(), "Authentication", context.getAuthenticationToken())
+            this.updateUsersReq = given().headers("Authentication", context.getAuthenticationToken())
                     .body(leaderboardUser.getRequestJson()).contentType(ContentType.JSON);
 
-            this.updateUserRes = this.updateUsersReq.when().put(Constants.BASE_URL + "/v1/users");
+            this.updateUserRes = this.updateUsersReq.when().put(Configs.BASE_URL + "/v1/users");
 
-            System.out.println(((RequestSpecificationImpl) this.updateUsersReq).getHeaders());
-            System.out.println(this.updateUserRes.body().prettyPrint());
+            AllureAttachment.addSearchDetailsToReport("UPDATE LEADERBOARD USER", "PUT", this.updateUsersReq, this.updateUserRes);
 
         });
 

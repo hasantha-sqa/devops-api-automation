@@ -2,12 +2,12 @@ package org.devops.steps.authorization;
 
 import io.cucumber.java8.En;
 import io.restassured.http.ContentType;
-import io.restassured.internal.RequestSpecificationImpl;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.devops.Context;
-import org.devops.utils.Constants;
+import org.devops.utils.AllureAttachment;
+import org.devops.utils.Configs;
 import org.devops.utils.PropertyUtils;
 
 import static io.restassured.RestAssured.given;
@@ -23,17 +23,16 @@ public class VerifyTokenSteps extends Context implements En {
 
         Given("^user wants to verify current auth token is valid$", () -> {
 
-            context.setAuthorizationToken(PropertyUtils.readPropertyFile(Constants.AUTO_TOKEN_FILE).getProperty("Token"));
+            context.setAuthorizationToken(PropertyUtils.readPropertyFile(Configs.AUTO_TOKEN_FILE).getProperty("Token"));
 
         });
 
         When("^user hits verify token endpoint$", () -> {
 
             this.verifyTokenReq = given().headers("Authorization", context.getAuthorizationToken()).contentType(ContentType.JSON);
-            this.verifyTokenRes = this.verifyTokenReq.when().get(Constants.BASE_URL + "/auth/verifytoken");
+            this.verifyTokenRes = this.verifyTokenReq.when().get(Configs.BASE_URL + "/auth/verifytoken");
 
-            System.out.println(((RequestSpecificationImpl) this.verifyTokenReq).getHeaders());
-            System.out.println(this.verifyTokenRes.body().prettyPrint());
+            AllureAttachment.addSearchDetailsToReport("VERIFY TOKEN", "GET", this.verifyTokenReq, this.verifyTokenRes);
 
         });
 

@@ -12,10 +12,15 @@ Feature: Get the User Information by User Name
     And login response should return an authentication token
     And login response should return expire time as "3 min"
 
-  @GetLeaderboardUsers
-  Scenario: User Wants to Verify Returning User Information by User Name
-    Given user enters user name as "Test321"
+  @GetUserByName
+  Scenario Outline: User Wants to Verify Returning User Information by User Name
+    Given user enters user name as "<userName>"
     When user hits get user by name endpoint
     Then user should get user by name response with status code 200
     And get user by name response should return only one user
-    And get user by name response should return username as "Test321"
+    And get user by name response should return username as "<userName>"
+    Examples:
+      | userName |
+      | Test321  |
+      | Test456  |
+      | Test789  |

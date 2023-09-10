@@ -1,9 +1,9 @@
 package org.devops.steps.authorization;
 
-import io.restassured.internal.RequestSpecificationImpl;
 import org.devops.Context;
 import org.devops.objects.App;
-import org.devops.utils.Constants;
+import org.devops.utils.AllureAttachment;
+import org.devops.utils.Configs;
 import io.cucumber.java8.En;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -30,10 +30,9 @@ public class GenerateAuthTokenSteps extends Context implements En {
         When("^user hits generate token endpoint$", () -> {
 
             this.generateTokenReq = given().body(this.app.getRequestJson()).contentType(ContentType.JSON);
-            this.generateTokenRes = this.generateTokenReq.when().post(Constants.BASE_URL + "/auth/gentoken");
+            this.generateTokenRes = this.generateTokenReq.when().post(Configs.BASE_URL + "/auth/gentoken");
 
-            System.out.println(((RequestSpecificationImpl) this.generateTokenReq).getBody());
-            System.out.println(this.generateTokenRes.body().prettyPrint());
+            AllureAttachment.addSearchDetailsToReport("GET TOKEN", "POST", this.generateTokenReq, this.generateTokenRes);
 
         });
 
