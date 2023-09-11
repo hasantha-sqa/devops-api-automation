@@ -10,12 +10,12 @@
 ## Project Structure
 Separate packages maintained to manage classes based on there usage.
 
-<img alt="img.png" height="250" src="img.png"/>
+<img alt="img.png" height="250" src="readme/img.png"/>
 
 ### executor
 Test Execution Classes are maintained within this package.
 
-<img alt="img_1.png" height="300" src="img_1.png" width="500"/>
+<img alt="img_1.png" height="300" src="readme/img_1.png" width="500"/>
 
 * Cucumber CLI option is used to trigger the test scenarios.
 * Glue paths for step definitions and feature files are defined with the test method.
@@ -25,11 +25,11 @@ Test Execution Classes are maintained within this package.
 ### steps
 Step Definitions of steps used in the feature files are maintained in this package.
 
-<img alt="img_2.png" height="250" src="img_2.png"/>
+<img alt="img_2.png" height="250" src="readme/img_2.png"/>
 
 Sub packages are maintained based on the features of the endpoints.
 Separate Classes are maintained for each endpoint.
-![img_3.png](img_3.png)
+![img_3.png](readme/img_3.png)
 
 In each Class same structure is followed as in the above.
 RestAssured provided : 
@@ -44,17 +44,17 @@ Meanwhile, Requests and Responses are added to the Allure Report as an attachmen
 
 Classes with other supporting methods are maintained within this package. 
 Configs class is used to declare configurations/constants like Base URL, auth token stored file path, etc.
-![img_4.png](img_4.png)
+![img_4.png](readme/img_4.png)
 
 ### Context
 Context Class used to manage global variables that may need to used across the Classes to communicate with the endpoints.
-![img_5.png](img_5.png)
+![img_5.png](readme/img_5.png)
 
 ### scenarios
 Test Scenarios / Feature Files are maintained within the resources directory.
 They are grouped according to the functions on the endpoint.
 
-<img alt="img_6.png" height="250" src="img_6.png"/>
+<img alt="img_6.png" height="250" src="readme/img_6.png"/>
 
 Within the Feature Files, the Feature and Scenario is defined and then followed by the steps to :
 * Enter inputs to the request 
@@ -64,7 +64,7 @@ Within the Feature Files, the Feature and Scenario is defined and then followed 
 Background option is used to execute and satisfy any pre-requirements to the intended test scenarios.
 Also, Scenario Outline option is used to execute the same scenario for different data sets.
 
-![img_7.png](img_7.png)
+![img_7.png](readme/img_7.png)
 
 
 ## Endpoint Testing
@@ -110,10 +110,10 @@ Authentication Token is used in the request as a header named **"Authentication"
 Allure is used as the reporting tool and when the user executes mvn-site goal, it will generate the report.
 
 ### Overview
-![img_8.png](img_8.png)
+![img_8.png](readme/img_8.png)
 
 ### Test Scenarios And Steps
-![img_9.png](img_9.png)
+![img_9.png](readme/img_9.png)
 
 ### Logging Request And Response
-![img_10.png](img_10.png)
+![img_10.png](readme/img_10.png)
